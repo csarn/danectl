@@ -789,9 +789,9 @@ tlsa_check()
 		then
 			:
 		else
-			[ "$missing" = 0 ] && echo "; Missing $certname current (must be published)"
-			missing=1
-			echo -e "$domain\tIN\tTLSA\t3 1 1 $hash_current"
+			#[ "$missing" = 0 ] && echo "; Missing $certname current (must be published)"
+			#missing=1
+			echo -e "update add $domain\tIN\tTLSA\t3 1 1 $hash_current"
 		fi
 	done
 	missing=0
@@ -802,9 +802,9 @@ tlsa_check()
 		then
 			:
 		else
-			[ "$missing" = 0 ] && echo "; Missing $certname next (must be published)"
-			missing=1
-			echo -e "$domain\tIN\tTLSA\t3 1 1 $hash_next"
+			#[ "$missing" = 0 ] && echo "; Missing $certname next (must be published)"
+			#missing=1
+			echo -e "update add $domain\tIN\tTLSA\t3 1 1 $hash_next"
 		fi
 	done
 	superfluous=0
@@ -814,9 +814,9 @@ tlsa_check()
 		extra="`host -t tlsa \"$domain\" | grep TLSA | sed -e 's/^/;/' -e 's/ has /.	/' -e 's/ record /	/' -e 'y/ABCDEF/abcdef/' -e 's/TLSa/TLSA/' -e 's/ \([a-f0-9][a-f0-9]*\)$/\1/' | grep -v \"$hash_current\" | grep -v \"$hash_next\"`"
 		if [ -n "$extra" ]
 		then
-			[ "$superfluous" = 0 ] && echo ";; Superfluous $certname (should be removed)"
-			superfluous=1
-			echo "$extra"
+			#[ "$superfluous" = 0 ] && echo ";; Superfluous $certname (should be removed)"
+			#superfluous=1
+			echo "update del $extra"
 		fi
 	done
 }
@@ -931,7 +931,7 @@ status()
 			certname="${symlink##*/}"
 			target="`readlink \"$symlink\"`"
 			note=; [ ! -d "$symlink" ] && note=" (deleted)" && run rm "$symlink"
-			echo "$certname: $role ${target##*/}$note"
+			#echo "$certname: $role ${target##*/}$note"
 		done
 	done | sort
 	for symlink in "$le/current"/*
