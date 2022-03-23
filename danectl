@@ -811,7 +811,7 @@ tlsa_check()
 	for t in $tlsa
 	do
 		domain="`case \"$t\" in *.) echo $t;; *) echo $t.$certname.;; esac`"
-		extra="`host -t tlsa \"$domain\" | grep TLSA | sed -e 's/^/;/' -e 's/ has /.	/' -e 's/ record /	/' -e 'y/ABCDEF/abcdef/' -e 's/TLSa/TLSA/' -e 's/ \([a-f0-9][a-f0-9]*\)$/\1/' | grep -v \"$hash_current\" | grep -v \"$hash_next\"`"
+		extra="`host -t tlsa \"$domain\" | grep TLSA | sed -e 's/ has /.	/' -e 's/ record /	/' -e 'y/ABCDEF/abcdef/' -e 's/TLSa/TLSA/' -e 's/ \([a-f0-9][a-f0-9]*\)$/\1/' | grep -v \"$hash_current\" | grep -v \"$hash_next\"`"
 		if [ -n "$extra" ]
 		then
 			#[ "$superfluous" = 0 ] && echo ";; Superfluous $certname (should be removed)"
