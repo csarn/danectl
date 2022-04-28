@@ -1143,12 +1143,12 @@ sshfp_check()
 		my $missing = 0;
 		for my $sshfp (sort keys %current)
 		{
-			print(($missing ? "" : "; Missing '"$hostname"' sshfp (must be published)\n"), "'"$hostname"'.\tIN\tSSHFP\t$sshfp\n"), $missing = 1 if !exists $published{$sshfp};
+			print("update add ", "'"$hostname"'.\tIN\tSSHFP\t$sshfp\n"), $missing = 1 if !exists $published{$sshfp};
 		}
 		my $superfluous = 0;
 		for my $sshfp (sort keys %published)
 		{
-			print(($superfluous ? "" : ";; Superfluous '"$hostname"' sshfp (should be removed)\n"), ";", "'"$hostname"'.\tIN\tSSHFP\t$sshfp\n"), $superfluous = 1 if !exists $current{$sshfp};
+			print("update del ", "'"$hostname"'.\tIN\tSSHFP\t$sshfp\n"), $superfluous = 1 if !exists $current{$sshfp};
 		}
 	'
 }
